@@ -1,0 +1,18 @@
+[Unit]
+Description=Rakuten Proxy API Worker %i
+After=network.target redis.service
+Requires=redis.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/rakuten-proxy
+EnvironmentFile=/etc/rakuten-proxy.env
+ExecStart=/bin/bash -lc 'INSTANCE=%i; PORT=$$(( $${PORT_BASE:-3100} + INSTANCE )); WORKER_ID=$${WORKER_ID_PREFIX:-worker-}$${INSTANCE} exec /usr/bin/node /opt/rakuten-proxy/rakuten-proxy-server.mjs'
+Restart=always
+RestartSec=3
+User=www-data
+Group=www-data
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

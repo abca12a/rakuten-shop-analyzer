@@ -1,0 +1,56 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+
+    "manifest_version": 3,
+    "name": "乐天店铺数据分析器",
+    "version": "1.7.5",
+    "description": "抓取和分析特定乐天店铺的商品数据，包括完整商品描述、高分辨率图片、分类、标签和排名信息。支持31个字段的CSV导出。",
+    "permissions": [
+        "storage",
+        "notifications",
+        "downloads",
+        "tabs"
+    ],
+    "host_permissions": [
+        "https://api.845817074.xyz/*",
+        "*://app.rakuten.co.jp/*",
+        "*://*.rakuten.co.jp/*",
+        "*://*.rakuten.ne.jp/*",
+        "*://*.rakuten.com/*"
+    ],
+    "background": {
+        "service_worker": "service-worker.js",
+        "type": "module"
+    },
+    "action": {
+        "default_popup": "popup.html",
+        "default_title": "乐天店铺数据分析器",
+        "default_icon": {
+            "16": "images/icon16.png",
+            "48": "images/icon48.png",
+            "128": "images/icon128.png"
+        }
+    },
+    "icons": {
+        "16": "images/icon16.png",
+        "48": "images/icon48.png",
+        "128": "images/icon128.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.rakuten.co.jp/*",
+                "*://*.rakuten.ne.jp/*",
+                "*://*.rakuten.com/*"
+            ],
+            "js": ["src/content-script.js"],
+            "run_at": "document_idle"
+        }
+    ],
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": true
+    },
+
+    "author": "Rakuten Operations Exchange QQ Group 578166210"
+}

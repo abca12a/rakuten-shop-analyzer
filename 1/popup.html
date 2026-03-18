@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>乐天店铺分析</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="popup-header">
+      <h1>乐天店铺分析</h1>
+      <p>输入店铺代码，先抓取，再导出。</p>
+    </header>
+
+    <section class="panel form-panel">
+      <label for="shopCode">店铺代码或链接</label>
+      <div class="input-group">
+        <input
+          type="text"
+          id="shopCode"
+          name="shopCode"
+          placeholder="example-shop 或完整 Rakuten 店铺链接"
+        />
+        <button
+          type="button"
+          id="getCurrentUrlBtn"
+          class="inline-btn"
+          title="读取当前标签页链接"
+        >
+          读取当前页
+        </button>
+      </div>
+      <p class="field-hint">
+        支持直接输入店铺代码，或粘贴 <code>rakuten.co.jp</code> /
+        <code>rakuten.ne.jp</code> 店铺链接。
+      </p>
+
+      <div class="option-list">
+        <label class="option-label">
+          <input type="checkbox" id="fetchRankingOption" checked />
+          获取商品排名（更慢）
+        </label>
+        <label class="option-label">
+          <input type="checkbox" id="rankingSafeModeOption" checked />
+          排名安全模式（推荐）
+        </label>
+        <label class="option-label">
+          <input type="checkbox" id="fetchTagsOption" checked />
+          获取商品标签
+        </label>
+      </div>
+
+      <div id="imageFetchSettings" class="settings-grid">
+        <div>
+          <label for="imageFetchModeSelect">图片处理方式</label>
+          <select id="imageFetchModeSelect" name="imageFetchModeSelect">
+            <option value="download_files">下载图片文件</option>
+            <option value="url_only">仅导出图片 URL CSV</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="pageTimeoutInput">页面等待时间（毫秒）</label>
+          <input
+            type="number"
+            id="pageTimeoutInput"
+            name="pageTimeoutInput"
+            value="12000"
+            min="5000"
+            step="1000"
+          />
+        </div>
+      </div>
+      <p class="field-hint">
+        建议 8000-15000ms。该时间会直接用于页面抓取和图片标签页等待。
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <h2>主操作</h2>
+          <p>通常先抓取店铺数据，再按需抓取图片。</p>
+        </div>
+      </div>
+      <div class="action-row">
+        <button id="startScrapeBtn">
+          <span class="btn-icon">抓取</span>
+          店铺数据
+        </button>
+        <button id="stopScrapeBtn" class="stop-btn" style="display: none">
+          <span class="btn-icon">停止</span>
+          当前抓取
+        </button>
+      </div>
+      <div class="action-row">
+        <button id="fetchImagesBtn" class="accent-btn">
+          <span class="btn-icon">图片</span>
+          高分辨率抓取
+        </button>
+        <button id="stopImageFetchBtn" class="stop-btn" style="display: none">
+          <span class="btn-icon">停止</span>
+          图片抓取
+        </button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <h2>导出与清理</h2>
+          <p>抓取完成后再执行这些操作。</p>
+        </div>
+      </div>
+      <button id="exportCsvBtn">
+        <span class="btn-icon">CSV</span>
+        导出商品 CSV
+      </button>
+      <button id="exportImageUrlsBtn" class="secondary-btn">
+        <span class="btn-icon">URL</span>
+        导出图片 URL CSV
+      </button>
+      <button id="clearDataBtn" class="danger-btn">
+        <span class="btn-icon">清空</span>
+        清除当前店铺数据
+      </button>
+    </section>
+
+    <section class="panel" id="helpPanel">
+      <div class="section-head">
+        <div>
+          <h2>设置与帮助</h2>
+          <p>配置 API、诊断问题或恢复界面。</p>
+        </div>
+      </div>
+      <div class="tool-grid">
+        <button id="openOptionsBtn" class="secondary-btn">打开设置</button>
+        <button id="quickTestBtn" class="secondary-btn">系统诊断</button>
+        <button id="recoverStateBtn" class="secondary-btn">恢复界面</button>
+      </div>
+      <button id="userGuideBtn" class="ghost-btn">查看操作说明</button>
+    </section>
+
+    <div id="loadingIndicator">
+      <p class="loader-dots">处理中</p>
+    </div>
+    <div id="statusArea" class="message-base">状态：空闲</div>
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <h2>结果摘要</h2>
+          <p>抓取、导出或清理完成后会显示在这里。</p>
+        </div>
+      </div>
+      <div id="summaryResultsArea">
+        <p class="empty-state">暂无结果。</p>
+      </div>
+    </section>
+
+    <section class="panel" id="imageStatusArea">
+      <div class="section-head">
+        <div>
+          <h2>图片状态</h2>
+          <p>批量图片抓取开始后会更新。</p>
+        </div>
+      </div>
+      <div id="imageStatusText" class="info-text">尚未开始图片抓取。</div>
+      <div id="imageProgressBar">
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div id="imageProgressFill"></div>
+          </div>
+          <span id="imageProgressText">0%</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <h2>操作日志</h2>
+          <p>用于查看进度和排查失败原因。</p>
+        </div>
+      </div>
+      <div id="progressLogArea">
+        <p class="log-empty">暂无操作日志。</p>
+      </div>
+    </section>
+
+    <footer id="pluginInfoArea" class="footer-bar">
+      <span>版本 <strong id="pluginVersion" class="version-number"></strong></span>
+      <span>技术支持群 578166210</span>
+    </footer>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

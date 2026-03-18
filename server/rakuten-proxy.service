@@ -1,0 +1,16 @@
+[Unit]
+Description=Rakuten Proxy API
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/rakuten-proxy
+EnvironmentFile=/etc/rakuten-proxy.env
+ExecStart=/usr/bin/node /opt/rakuten-proxy/rakuten-proxy-server.mjs
+Restart=always
+RestartSec=3
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target

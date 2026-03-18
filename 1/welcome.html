@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>欢迎使用乐天店铺数据分析器</title>
+    <style>
+      :root {
+        --bg: #eef3f8;
+        --panel: #ffffff;
+        --border: #d9e4ef;
+        --text: #17324a;
+        --muted: #62798f;
+        --primary: #1f78d1;
+        --primary-hover: #1666b4;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 28px 16px;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at top right, rgba(31, 120, 209, 0.14), transparent 34%),
+          linear-gradient(180deg, #f8fbfe 0%, var(--bg) 100%);
+        color: var(--text);
+        font:
+          15px/1.6 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      }
+
+      .container {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 32px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        box-shadow: 0 18px 42px rgba(18, 52, 82, 0.08);
+      }
+
+      .hero {
+        margin-bottom: 26px;
+      }
+
+      .hero-mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        margin-bottom: 16px;
+        border-radius: 18px;
+        background: #eaf4fc;
+        font-size: 28px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 32px;
+      }
+
+      .hero p {
+        margin: 10px 0 0;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .card {
+        padding: 18px;
+        background: #f8fbfe;
+        border: 1px solid #dce7f0;
+        border-radius: 16px;
+      }
+
+      .card h2 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+
+      .card p,
+      .card li {
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .btn {
+        padding: 12px 18px;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 600;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-hover);
+      }
+
+      .btn-secondary {
+        background: #edf4fb;
+        border-color: #c5d7e8;
+        color: var(--text);
+      }
+
+      .btn-secondary:hover {
+        background: #dfeefb;
+      }
+
+      .steps {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .meta {
+        margin-top: 20px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="hero">
+        <div class="hero-mark">店铺</div>
+        <h1>乐天店铺数据分析器</h1>
+        <p>安装完成后，扩展会直接连接你的服务器，再输入店铺代码开始抓取。</p>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h2>你会用到的功能</h2>
+          <ul class="steps">
+            <li>抓取店铺商品数据与排名</li>
+            <li>批量抓取高分辨率图片</li>
+            <li>导出商品 CSV 和图片 URL CSV</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>推荐顺序</h2>
+          <ol class="steps">
+            <li>先打开设置确认服务器连接信息。</li>
+            <li>再打开主界面输入店铺代码。</li>
+            <li>先抓取数据，再按需导出或抓图。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" data-action="options">打开设置</button>
+        <button class="btn btn-secondary" data-action="popup">打开主界面</button>
+      </div>
+
+      <p class="meta">需要帮助时，可在弹窗里使用“系统诊断”“恢复界面”和“查看操作说明”。</p>
+      <p class="meta">技术支持群：578166210</p>
+    </div>
+
+    <script src="welcome.js"></script>
+  </body>
+</html>

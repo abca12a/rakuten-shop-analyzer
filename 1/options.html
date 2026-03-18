@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>乐天分析插件设置</title>
+    <style>
+      :root {
+        --bg: #eef3f8;
+        --panel: #ffffff;
+        --border: #d7e2ec;
+        --text: #17324a;
+        --muted: #61788f;
+        --primary: #1f78d1;
+        --primary-hover: #1666b4;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 28px 16px;
+        background:
+          radial-gradient(circle at top right, rgba(31, 120, 209, 0.14), transparent 36%),
+          linear-gradient(180deg, #f6f9fc 0%, var(--bg) 100%);
+        color: var(--text);
+        font:
+          14px/1.6 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      }
+
+      .container {
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 24px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        box-shadow: 0 16px 36px rgba(18, 52, 82, 0.08);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 26px;
+      }
+
+      .subtitle {
+        margin: 8px 0 20px;
+        color: var(--muted);
+      }
+
+      #status {
+        min-height: 20px;
+        margin-top: 14px;
+        padding: 12px;
+        border-radius: 12px;
+        text-align: center;
+      }
+
+      .success {
+        color: #0f6a46;
+        background: #e6f5ed;
+        border: 1px solid #b8e4ca;
+      }
+
+      .error {
+        color: #8f1f1f;
+        background: #fdecec;
+        border: 1px solid #f5c3c3;
+      }
+
+      .warning {
+        color: #815100;
+        background: #fff6df;
+        border: 1px solid #f1d48c;
+      }
+
+      .card {
+        margin-top: 20px;
+        padding: 16px;
+        background: #f8fbfe;
+        border: 1px solid #dbe6f0;
+        border-radius: 14px;
+      }
+
+      .card h2 {
+        margin: 0 0 10px;
+        font-size: 16px;
+      }
+
+      .endpoint {
+        margin: 8px 0 0;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: #edf5fd;
+        border: 1px solid #c7dff6;
+        font-family: 'Consolas', 'SFMono-Regular', monospace;
+        word-break: break-all;
+      }
+
+      .card ol,
+      .card ul {
+        margin: 10px 0 0;
+        padding-left: 20px;
+      }
+
+      .card a {
+        color: var(--primary);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>服务器连接</h1>
+      <p class="subtitle">
+        当前版本已经固定走你的服务器代理，扩展内不再要求填写 Rakuten 凭证。
+      </p>
+
+      <div id="status"></div>
+
+      <div class="card">
+        <h2>固定接口地址</h2>
+        <p>扩展会直接请求下面这个地址：</p>
+        <div class="endpoint">https://api.845817074.xyz</div>
+      </div>
+
+      <div class="card">
+        <h2>当前模式</h2>
+        <ol>
+          <li>浏览器扩展只连 <code>https://api.845817074.xyz</code>。</li>
+          <li>你的服务器再去调用 Rakuten API。</li>
+          <li>Rakuten 白名单里放行的是服务器公网 IP，不是浏览器本机 IP。</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h2>Cloudflare 注意事项</h2>
+        <ul>
+          <li>域名接入 Cloudflare 时，建议 SSL/TLS 使用 <code>Full (strict)</code>。</li>
+          <li>初次排错时可以先切 <code>DNS only</code>，确认源站 Nginx 和证书都正常。</li>
+          <li>如果 Rakuten 返回 <code>CLIENT_IP_NOT_ALLOWED</code>，请检查 Rakuten 后台是否已放行服务器公网 IP。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>使用顺序</h2>
+        <ul>
+          <li>先部署服务器端代理。</li>
+          <li>确认 <code>/health</code> 可访问。</li>
+          <li>返回弹窗输入店铺代码或链接。</li>
+          <li>先抓取店铺数据，再按需导出或抓取图片。</li>
+        </ul>
+      </div>
+    </div>
+    <script src="options.js"></script>
+  </body>
+</html>
